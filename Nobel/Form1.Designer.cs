@@ -66,7 +66,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Calibri", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label1.Location = new System.Drawing.Point(537, 222);
+            this.label1.Location = new System.Drawing.Point(524, 221);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(196, 35);
             this.label1.TabIndex = 2;
@@ -84,7 +84,7 @@
             // 
             this.letolabel.AutoSize = true;
             this.letolabel.Font = new System.Drawing.Font("Calibri", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.letolabel.Location = new System.Drawing.Point(497, 151);
+            this.letolabel.Location = new System.Drawing.Point(480, 156);
             this.letolabel.Name = "letolabel";
             this.letolabel.Size = new System.Drawing.Size(144, 35);
             this.letolabel.TabIndex = 4;
@@ -138,7 +138,8 @@
             this.Controls.Add(this.podrocja);
             this.Controls.Add(this.rezultati);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "NOBELOVI NAGRAJENCI";
             this.ResumeLayout(false);
             this.PerformLayout();
 

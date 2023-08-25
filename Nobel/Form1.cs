@@ -13,22 +13,31 @@ namespace Nobel
 {
     public partial class Form1 : Form
     {
-        //private string povNiz = @"Data Source = C:\Users\Polona\Desktop\Prak_mat\Prog\PolonaFajdiga_V9_2023\Nobel\nobelDB.db";
-        private string povNiz =  "Server= baza.fmf.uni-lj.si; User Id= student11; Password= student; Database= nobel2012;";
-        
+        private string povNiz = "Server= baza.fmf.uni-lj.si;   User Id= student11;   Password= student;   Database= nobel2012;";
+
         public Form1()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Ko kliknemo na label3, to je naslov NOBELOVI NAGRAJENCI, se nam izpiše sporočilo 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void label3_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Vnesite leto in izberite kategorijo!");
         }
 
+        /// <summary>
+        /// Ko kliknemo na gumb Poišči, poiščemo podatke in jih pirkažemo, če smo izbrali letnico in kategorijo
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void poisci_Click(object sender, EventArgs e)
         {
-            rezultati.Items.Add("TUKAJ BODO PRIKAZANI REZULTATI ISKANJA");
+            rezultati.Items.Add("TUKAJ SO PRIKAZANI REZULTATI ISKANJA");
             NpgsqlConnection povezava = new NpgsqlConnection(povNiz);
 
             if (leto.Text == "" || podrocja.Text == "")
@@ -41,35 +50,34 @@ namespace Nobel
                 povezava.Open();
                 int letnica = int.Parse(leto.Text);
                 string kategorija = podrocja.Text;
-                NpgsqlCommand ukaz = new NpgsqlCommand("SELECT * FROM Nobel");
+                string sql = $"SELECT DISTINCT winner, subject,yr FROM nobel WHERE nobel.yr = {letnica} ";
+                NpgsqlCommand ukaz = new NpgsqlCommand();
+                ukaz.Connection = povezava;
+                ukaz.CommandType = CommandType.Text;
+                ukaz.CommandText = sql;
                 NpgsqlDataReader rez = ukaz.ExecuteReader();
                 while (rez.Read())
                 {
-                    if (rez.GetInt32(0) == letnica && rez.GetString(1) == kategorija)
+                    for (int i = 0; i < rez.VisibleFieldCount / 2; i++)
                     {
-                        rezultati.Items.Add($"{rez.GetString(2)} je zmagal leta {rez.GetInt32(0)} ");
-                    }
-                    
+                        if (rez[1].ToString() == kategorija)
+                        {
+                            rezultati.Items.Add($"{rez[0].ToString()} je zmagal leta {rez[2]}");
+                        }
+                    }        
                 }
             }
             finally
             {
                 povezava.Close();
-                //if (rez != null)
-                //{
-                //    povezava.Close();
-                //}
-                //if (povezava != null)
-                //{
-                //    povezava.Close();
-                //}
-
             }
         }
 
         private void pocisti_Click(object sender, EventArgs e)
         {
             rezultati.Items.Clear();
+            leto.Text = "";
+            podrocja.Text = "";
         }
     }
 }
